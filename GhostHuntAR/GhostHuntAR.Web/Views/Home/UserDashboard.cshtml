@@ -1,0 +1,243 @@
+﻿@using GhostHuntAR.Infrastructure.Helpers
+@using GhostHuntAR.Infrastructure.Models.Enums
+@model IEnumerable<GhostHuntAR.Infrastructure.Models.TransmitModels.GHLocationListItemTransmitModel>
+
+@Styles.Render("~/Content/home")
+
+<script type="text/javascript">
+  window.locationObjs = {};
+  window.locationTitles = {};
+  window.currentUserId = '@UserHelper.Instance.CurrentUserId';
+</script>
+
+<div id="content">
+  <div class="home-userdashboard-controls" id="controlsAccordion">
+    <h3>Locations</h3>
+    <div>
+      <div class="home-userdashboard-controls-container">
+        <select id="locationType" name="locationType">
+          <option value="MyEdits">My Edited Locations</option>
+          <option value="MyLocations">My Owned Locations</option>
+          <option value="SavedSearch">My Last Search</option>
+        </select>
+        <input value="Submit" type="button" id="locationsTypeSubmitButton" />
+        <br />
+        <p> - OR - </p>
+        <span>Enter Keywords: </span>
+        <input title="Keywords" id="keywords" name="keywords" type="text" />
+        <span> Or Enter Address: </span>
+        <input title="Address" id="address" name="address" type="text" />
+        <select title="Distance Units" id="distanceType" name="distanceType">
+          @foreach (var distanceType in Enum.GetValues(typeof (DistanceTypes)).Cast<DistanceTypes>())
+          {
+            <option>@distanceType.ToString()</option>
+          }
+        </select>
+        <select title="Radius" id="radius" name="radius">
+          <option>5</option>
+          <option>10</option>
+          <option>15</option>
+          <option>20</option>
+          <option>25</option>
+          <option>30</option>
+          <option>35</option>
+          <option>40</option>
+          <option>45</option>
+          <option>50</option>
+          <option>55</option>
+          <option>60</option>
+          <option>65</option>
+          <option>70</option>
+          <option>75</option>
+          <option>80</option>
+          <option>85</option>
+          <option>90</option>
+          <option>95</option>
+          <option>100</option>
+        </select>
+        <input id="searchSubmitButton" type="button" value="Submit" />
+      </div>
+    </div>
+  </div>
+  <div id="dashboardContent">
+
+    <div class="dashboard-left">
+      <div class="dashboard-left-header">
+        <h2></h2>
+        <a href="#"></a>
+      </div>
+
+      <div class="dashboard-left-top">
+
+      </div>
+
+      <div class="dashboard-left-bottom">
+        <ul id="locationList">
+          @foreach (var l in Model)
+          {
+            <script type="text/javascript">
+              window.locationTitles[parseInt('@l.GHLocationID')] = '@l.Title';
+            </script>
+            <li>
+              <div class="ghlocation-list-item">
+                <input type="hidden" value="@l.GHLocationID" />
+                <h3 id='ghLocation_@l.GHLocationID' class="ghlocation-list-item-activate">@l.Title</h3>
+                <div class="icon-container">
+                  @if (l.CreatedByUserID == UserHelper.Instance.CurrentUserId)
+                  {
+                    <a title="Edit" href='@Url.Action("Edit", "Manage", new {id = l.GHLocationID})'><img alt="Edit" src="~/Content/shared_images/editicon.png" /></a>
+                    <span>|</span>
+                  }
+                  <a title="Add Sounds/Images/Texts/Videos" href='@Url.Action("AddSightsAndSounds", "Manage", new {id = l.GHLocationID})'><img alt="Add" src="~/Content/shared_images/addicon.png" /></a>
+                </div>
+              </div>
+            </li>
+          }
+          @*@for (var i = 0; i < 100; i++)
+            {
+              <li>
+                <div class="ghlocation-list-item">
+                  <h3>Test</h3>
+                  <div class="icon-container">
+                    <a href='@Url.Action("Display", "Manage", new { id = 1 })'><img src="~/Content/shared_images/editicon.png" /></a>
+                  </div>
+              </div>
+              </li>
+            }*@
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="dashboard-right">
+      <div id="userInfoDiv">
+        <span style="float: left;">Welcome, @Html.ActionLink(UserHelper.Instance.CurrentUser.Name ?? UserHelper.Instance.CurrentUserName, "Index", "Account", new {id = UserHelper.Instance.CurrentUserName}, new {target = "_blank", title = UserHelper.Instance.CurrentUserName})!</span>
+        <br />
+        <div class="user-controls-div">
+          @Html.ActionLink("Manage Settings", "Manage", "Account", new {}, new {target = "_blank", @class = "user-navigation-a"})
+          @using (Html.BeginForm("LogOff", "Account"))
+          {
+            @Html.AntiForgeryToken()
+            <input class="user-info-button" type="submit" value="Log Off" />
+          }
+          @Html.ActionLink("New Location", "Create", "Manage", new { }, new { target = "_blank", @class = "user-navigation-a border-left-black" })
+        </div>
+      </div>
+      <div style="display: none;" id="userDashboardTabs">
+        <ul>
+          <li><a href="#soundContainer">Sound</a></li>
+          <li><a href="#videoContainer">Video</a></li>
+          <li><a href="#imageContainer">Image</a></li>
+          <li><a href="#textContainer">Text</a></li>
+        </ul>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="soundContainer">
+
+        </div>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="videoContainer">
+
+        </div>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="imageContainer">
+
+        </div>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="textContainer">
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+  <div style="display: none;" id="editDialog">
+  </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryui")
+@Scripts.Render("~/bundles/home")
+
+<script type="text/javascript">
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+  var sasa = new SightsAndSoundsAjax({
+    urls: {
+      user: {
+        sound: '@Url.Action("GetPagedSoundsByUserName", "Sound", new {id = string.Empty})',
+        image: '@Url.Action("GetPagedImagesByUserName", "Image", new {id = string.Empty})',
+        text: '@Url.Action("GetPagedTextsByUserName", "Text", new {id = string.Empty})',
+        video: '@Url.Action("GetPagedVideosByUserName", "Video", new {id = string.Empty})'
+      },
+
+      location: {
+        sound: '@Url.Action("GetPagedSoundsByGHLocationId", "Sound", new {id = string.Empty})',
+        image: '@Url.Action("GetPagedImagesByGHLocationId", "Image", new {id = string.Empty})',
+        text: '@Url.Action("GetPagedTextsByGHLocationId", "Text", new {id = string.Empty})',
+        video: '@Url.Action("GetPagedVideosByGHLocationId", "Video", new {id = string.Empty})'
+      }
+
+    },
+
+    containerIds: {
+      sound: "#soundContainer",
+      image: "#imageContainer",
+      text: "#textContainer",
+      video: "#videoContainer"
+    },
+
+    pageSizes: {
+      sound: '@ViewBag.soundPageSize',
+      image: '@ViewBag.imagePageSize',
+      text: '@ViewBag.textPageSize',
+      video: '@ViewBag.videoPageSize'
+    },
+
+    viewUrls: {
+      sound: '@Url.Action("Index", "Sound", new {id = string.Empty})',
+      image: '@Url.Action("Index", "Image", new {id = string.Empty})',
+      text: '@Url.Action("Index", "Text", new {id = string.Empty})',
+      video: '@Url.Action("Display", "Video", new {id = string.Empty})'
+    },
+
+    editUrls: {
+      sound: '@Url.Action("Edit", "Sound", new {id = string.Empty})',
+      image: '@Url.Action("Edit", "Image", new {id = string.Empty})',
+      text: '@Url.Action("Edit", "Text", new {id = string.Empty})',
+      video: '@Url.Action("Edit", "Video", new {id = string.Empty})'
+    },
+
+    deleteUrls: {
+      sound: '@Url.Action("Delete", "Sound", new {id = string.Empty})',
+      image: '@Url.Action("Delete", "Image", new {id = string.Empty})',
+      text: '@Url.Action("Delete", "Text", new {id = string.Empty})',
+      video: '@Url.Action("Delete", "Video", new {id = string.Empty})'
+    },
+
+    userNameUrl: '@Url.Action("Index", "Account", new {id = string.Empty})',
+
+    thumbNailUrl: '@Url.Action("ThumbNail", "Image", new {id = string.Empty})',
+
+    locationTitleUrl: '@Url.Action("GetLocationTitle", "Manage", new {id = string.Empty})',
+
+    currentUserName: '@UserHelper.Instance.CurrentUserName'
+
+  });
+
+  var ud = new UserDashboard({
+    editLocationUrl: '@Url.Action("Edit", "Manage", new {id = string.Empty})',
+    addSightsAndSoundsUrl: '@Url.Action("AddSightsAndSounds", "Manage", new {id = string.Empty})',
+    locationImageUrl: '@Url.Action("Image", "Manage", new {id = string.Empty})',
+    indexLocationUrl: '@Url.Action("Index", "Manage", new {id = string.Empty})',
+    indexSearchUrl: '@Url.Action("Index", "Search", new {id = string.Empty})',
+    indexHomeUrl: '@Url.Action("Index", "Home", new {id = string.Empty})',
+    sasa: sasa
+  });
+
+  Home(ud, sasa);
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+</script>

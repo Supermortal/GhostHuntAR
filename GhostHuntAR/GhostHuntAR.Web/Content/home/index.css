@@ -1,0 +1,14 @@
+﻿.gh-home-index-description {
+  margin: 20px; 
+  color: white;
+}
+
+.gh-home-index-login-partial-container {
+  position: relative; 
+  top: 30px;
+}
+
+.login-height {
+  width: 66%;
+  margin: auto;
+}

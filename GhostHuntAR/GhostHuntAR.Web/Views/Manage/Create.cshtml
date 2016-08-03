@@ -1,0 +1,104 @@
+﻿@using NamespaceMedia.Common.Helpers
+@model GhostHuntAR.Infrastructure.Models.GHLocation
+
+@{
+  ViewBag.Title = "Create";
+}
+
+<div style="padding: 6px;" id="content" class="centered">
+
+  <div class="gh-tab-content">
+    @using (Html.BeginForm("Create", "Manage", new { }, FormMethod.Post, new { id = "createLocationForm", enctype = "multipart/form-data" }))
+    {
+      <p>Enter a street address OR geo coordinates</p>
+
+      <br />
+
+      @Html.LabelFor(m => m.Title)
+      <br />
+      @Html.EditorFor(m => m.Title)
+
+      <br />
+
+      @Html.LabelFor(m => m.Text)
+      <br />
+      @Html.EditorFor(m => m.Text)
+
+      <br />
+
+      @Html.LabelFor(m => m.Altitude)
+      <br />
+      @Html.EditorFor(m => m.Altitude)
+
+      <br />
+
+      @Html.LabelFor(m => m.Latitude)
+      <br />
+      @Html.EditorFor(m => m.Latitude)
+
+      <br />
+
+      @Html.LabelFor(m => m.Longitude)
+      <br />
+      @Html.EditorFor(m => m.Longitude)
+
+      <br />
+
+      @Html.LabelFor(m => m.AddressLine)
+      <br />
+      @Html.EditorFor(m => m.AddressLine)
+
+      <br />
+
+      @Html.LabelFor(m => m.City)
+      <br />
+      @Html.EditorFor(m => m.City)
+
+      <br />
+
+      @Html.LabelFor(m => m.State)
+      <br />
+      @Html.StatePicker("State")
+
+      <br />
+      <br />
+
+      @Html.LabelFor(m => m.ZipPostalCode)
+      <br />
+      @Html.EditorFor(m => m.ZipPostalCode)
+
+      <br />
+      <br />
+
+      @Html.LabelFor(m => m.ImageCaption)
+      <br />
+      @Html.EditorFor(m => m.ImageCaption)
+
+      <br />
+      <br />
+
+      @Html.LabelFor(m => m.Image)
+      <br />
+      <input type="file" name="image" />
+
+      <br />
+
+      <input type="submit" value="Submit" />
+    }
+  </div>
+
+</div>
+
+@section scripts {
+
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+      $("#createLocationForm").nsmUploader(null, function () {
+        location.href = '@Url.Action("Index", "Home")';
+      });
+    });
+
+  </script>
+
+}

@@ -1,0 +1,16 @@
+﻿@model IEnumerable<GhostHuntAR.Infrastructure.Models.Image>
+
+<ul>
+  @foreach (var image in Model)
+  {
+    <li>
+      <img src="@Url.Action("ThumbNail", "Image", new {id = image.ImageID}, null)"/>
+      @Html.ActionLink((string.IsNullOrEmpty(image.Caption)) ? image.ImageID.ToString() : image.Caption, "Index", "Image", new {id = image.ImageID}, null) - 
+      @Html.ActionLink("Edit", "Edit", "Image", new {id = image.ImageID}, null) | 
+      @using (Html.BeginForm("Delete", "Image", new {id = image.ImageID}, FormMethod.Post, new {@class = "inline"}))
+      {
+        <input style="border: 0 solid black !important; background: none; width: 60px !important;" class="no-border inline link" value="Delete" type="submit"/>
+      }
+    </li>
+  }
+</ul>

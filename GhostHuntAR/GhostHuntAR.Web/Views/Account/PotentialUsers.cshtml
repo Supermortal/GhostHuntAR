@@ -1,0 +1,35 @@
+﻿@using GhostHuntAR.Infrastructure.Models
+@model IEnumerable<GhostHuntAR.Infrastructure.Models.TokenRegister.PotentialUser>
+
+@{
+  ViewBag.Title = "Register";
+}
+
+@section styles
+{
+  @Styles.Render("~/Content/account")
+}
+
+<div class="centered gh-account-potentialusers-content" id="content" style="height: 1000px;">
+    
+  @Html.ActionLink("All", "PotentialUsers", "Account", new {type = "All"}, null) | 
+  @Html.ActionLink("Signed Up", "PotentialUsers", "Account", new {type = "SignedUp"}, null) | 
+  @Html.ActionLink("Not Signed Up", "PotentialUsers", "Account", new {type = "NotSignedUp"}, null)
+    
+  <br />
+  <br />
+  <hr />
+    
+  <ul class="gh-potentialusers-userlist">
+    @foreach (var pu in Model)
+    {
+      <li>@Html.ActionLink(pu.Name, "PotentialUser", "Account", new {id = pu.PotentialUserID}, null)</li>
+    }
+  </ul>
+    
+  <hr />
+  <br />
+  <br />
+    
+  @Html.Partial("Pagination", (Pagination) ViewBag.Pagination)
+</div>

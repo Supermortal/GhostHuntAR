@@ -1,0 +1,21 @@
+﻿@model GhostHuntAR.Infrastructure.Models.Image
+
+@{
+  ViewBag.Title = "Edit";
+}
+
+<div id="content" class="centered">
+
+  @using (Html.BeginForm("Edit", "Image", new {id = Model.ImageID}, FormMethod.Post, new {enctype = "multipart/form-data"}))
+  {
+    <input type="hidden" name="referrerUrl" value="@ViewBag.ReferrerUrl"/>
+        @*<span>Image: </span><input type="file" name="image" /> <br />*@
+    <span>Image Caption: </span><input value="@Model.Caption" type="text" name="imageCaption" />
+
+    <br />
+    <br />
+
+    <input type="submit" value="Submit"/>
+  }
+    
+</div>

@@ -1,0 +1,82 @@
+﻿@model GhostHuntAR.Infrastructure.Models.LoginModel
+
+@using (Html.BeginForm("Login", "Account", new {}, FormMethod.Post, new {id = "loginForm"}))
+{
+  @Html.AntiForgeryToken()
+
+  <input type="hidden" name="returnUrl" value="@Request.RawUrl"/>
+
+  <div class="centered">
+    @Html.ValidationSummary(true)
+  </div>
+
+  <div class="nsm-login-div">
+    
+    <table class="nsm-login-table">
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.UserName)
+        </td>
+        <td>
+          @Html.TextBoxFor(m => m.UserName)
+        </td>
+        <td>
+          @Html.ValidationMessageFor(m => m.UserName)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Password)
+        </td>
+        <td>
+          @Html.PasswordFor(m => m.Password)
+        </td>
+        <td>
+          @Html.ValidationMessageFor(m => m.Password)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.CheckBoxFor(m => m.RememberMe)
+        </td>
+        <td style="text-align: left;">
+          @Html.LabelFor(m => m.RememberMe, new {@class = "checkbox"})
+        </td>
+        <td>
+
+        </td>
+      </tr>
+    </table>
+          
+    <br />
+          
+    <input id="loginFormSubmit" type="submit" value="Log in" />
+          
+  </div>
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/cryptojs")
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $("#loginFormSubmit").click(function() {
+      var pwd = $("#Password").val();
+      $("#Password").prop("name", "PasswordInp");
+
+      var dummy = "";
+      $("#Password").val("");
+      for (var i = 0; i < pwd.length; i++) {
+        dummy += "*";
+      }
+      $("#Password").val(dummy);
+
+      var pwdInp = $("<input type='hidden' name='Password' />");
+      $(this).append(pwdInp);
+      $(pwdInp).val(CryptoJS.SHA256(pwd));
+    });
+
+  });
+</script>

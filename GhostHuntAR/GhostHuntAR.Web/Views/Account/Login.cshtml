@@ -1,0 +1,11 @@
+﻿@model GhostHuntAR.Infrastructure.Models.LoginModel
+
+@{
+  ViewBag.Title = "Log in";
+}
+
+<div style="height: 1000px" id="content" class="main-background-color">
+  @{
+    Html.RenderPartial("LoginPartial", Model);
+  }
+</div>

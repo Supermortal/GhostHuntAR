@@ -1,0 +1,143 @@
+﻿@model GhostHuntAR.Infrastructure.Models.RegisterModel
+@{
+  ViewBag.Title = "Register";
+}
+
+@section styles {
+  @Styles.Render("~/Content/account")
+}
+
+<div id="content" class="centered main-background-color nsm-account-register-content">
+
+  <hgroup class="title">
+    <h2>Create a new account</h2>
+  </hgroup>
+
+  @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {id = "registerForm", enctype = "multipart/form-data"}))
+  {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <input type="hidden" name="token" value="@ViewBag.token"/>
+
+    <table class="centered nsm-change-password-table">
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Name)
+        </td>
+        <td>
+          @Html.TextBoxFor(m => m.Name)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.UserName)
+        </td>
+        <td>
+          @Html.TextBoxFor(m => m.UserName)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Email)
+        </td>
+        <td>
+          @Html.TextBoxFor(m => m.Email)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Password)
+        </td>
+        <td>
+          @Html.PasswordFor(m => m.Password)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.ConfirmPassword)
+        </td>
+        <td>
+          @Html.PasswordFor(m => m.ConfirmPassword)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Image
+        </td>
+        <td>
+          <input type="file" name="image"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Biography)
+        </td>
+        <td>
+          @Html.TextAreaFor(p => p.Biography, new {id = "xinhaTextArea", @class = "nsm-account-register-bio-textarea"})
+        </td>
+      </tr>
+    </table>
+
+    <br />
+
+    <input id="registerFormSubmit" type="submit" value="Register" />
+  }
+    
+</div>
+
+@section scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+  @Scripts.Render("~/bundles/cryptojs")
+  @*@Scripts.Render("~/bundles/xinha")*@
+
+  <script type="text/javascript">
+
+    var allowSubmit = true;
+
+    $(document).ready(function() {
+
+      var registerFormSubmitClick = function() {
+        var pwd = $("#Password").val();
+        $("#Password").prop("name", "PasswordInp");
+
+        var dummy = "";
+        $("#Password").val("");
+        for (var i = 0; i < pwd.length; i++) {
+          dummy += "*";
+        }
+        $("#Password").val(dummy);
+
+        var pwdRepeat = $("#ConfirmPassword").val();
+        $("#ConfirmPassword").prop("name", "ConfirmPasswordInp");
+
+        dummy = "";
+        $("#ConfirmPassword").val("");
+        for (var i = 0; i < pwdRepeat.length; i++) {
+          dummy += "*";
+        }
+        $("#ConfirmPassword").val(dummy);
+
+        var pwdInp = $("<input type='hidden' name='Password' />");
+        $("#registerForm").append(pwdInp);
+        $(pwdInp).val(CryptoJS.SHA256(pwd));
+
+        var pwdRepeatInp = $("<input type='hidden' name='ConfirmPassword' />");
+        $("#registerForm").append(pwdRepeatInp);
+        $(pwdRepeatInp).val(CryptoJS.SHA256(pwdRepeat));
+
+        return true;
+      };
+
+      $("#registerForm").nsmUploader(registerFormSubmitClick, function() {
+        location.href = '@Url.Action("Index", "Home")';
+      });
+
+      //xinha_init();
+      $("#xinhaTextArea").show();
+
+      //$("#registerFormSubmit").click();
+
+    });
+  </script>
+}

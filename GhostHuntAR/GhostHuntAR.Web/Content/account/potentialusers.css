@@ -1,0 +1,13 @@
+﻿.gh-account-potentialusers-content {
+  background-color: #1f2428;
+  width: 80%;
+  padding: 20px;
+}
+
+.gh-potentialusers-userlist {
+  list-style-type: none;
+}
+
+.gh-potentialusers-userlist li {
+  margin-left: -40px;
+}

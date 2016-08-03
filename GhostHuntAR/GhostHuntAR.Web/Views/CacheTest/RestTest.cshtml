@@ -1,0 +1,223 @@
+﻿@{
+  ViewBag.Title = "Rest Test";
+}
+
+@Styles.Render("~/Content/account")
+
+<div id="content" class="user-page-content main-background-color default-set-height" style="width: 66%;">
+  <h2>Rest Test</h2>
+
+  <input data-bind="click: getLocations_click" type="button" value="Get Locations" />
+  <br />
+  <input data-bind="click: bombard" type="button" value="Bombard" />
+  <br />
+  <br />
+  <p><b>Token: </b></p>
+  <p data-bind="text: token"></p>
+  <br />
+  <table class="centered" data-bind="foreach: locations">
+    <tr>
+      <td data-bind="text: Title"></td>
+    </tr>
+  </table>
+</div>
+
+@section scripts {
+
+  @Scripts.Render("~/bundles/knockout")
+
+  <script type="text/javascript">
+
+  //"9d7e8737564e64994d57aff1820f9c0e23041ebc54f983b949b7be5a348c18f6"
+  function RestTest() {
+
+    this.token = ko.observable(null);
+    this.locationIds = ko.observableArray([]);
+    this.locations = ko.observableArray([]);
+
+    this.constructor = function () {
+
+      var self = this;
+
+      this.login("admin", "9d7e8737564e64994d57aff1820f9c0e23041ebc54f983b949b7be5a348c18f6", self.sightsAndSoundsTest, { id: 1 });
+
+    };
+
+    this.call = function (url, method, postData, token) {
+
+      var data = null;
+      if (postData != null) {
+        if (method == "GET") {
+          data = postData;
+        }
+        else {
+          data = JSON.stringify(postData);
+        }
+      }
+
+      return $.ajax({
+        url: url,
+        type: method,
+        headers: { 'Content-type': 'application/json', 'GH-AUTH-TOKEN': token },
+        dataType: 'json',
+        data: data,
+        context: document.body
+        //success: function (data) {
+        //  //alert(data.Status);
+        //  if (data.Status == "OK") {
+        //    //alert(data.Value.Title);
+        //    //$("#dataDiv").append($("<p>" + data.Value.Title + "</p>"));
+        //  }
+        //},
+        //error: function (e) {
+        //  console.log(e);
+        //}
+      });
+
+    }
+
+    this.login = function (username, password, callback, callbackArgs) {
+
+      var self = this;
+
+      var loginData = {
+        userName: username,
+        password: password
+      };
+
+      var call = this.call('@Url.Action("LogIn", "RemoteSession")', "POST", loginData);
+      call.done(function (data, textStatus, jqXHR) {
+        self.token(data.Token);
+
+        if (callback) {
+          callback(callbackArgs, self);
+        }
+      });
+
+    };
+
+    this.getLocation = function (args, context, bindToKnockout) {
+
+      var self = context;
+
+      var call = self.call('/api/@Url.Action("GetLocation", "Location")', "GET", { id: args.id }, self.token());
+      call.done(function (data, textStatus, jqXHR) {
+        if (bindToKnockout == true) {
+          self.locations.push(data);
+        }
+      });
+
+    };
+
+    this.getLocationIdsByLocation = function (args, context) {
+
+      var self = context;
+
+      var call = self.call('/api/@Url.Action("GetLocation", "Location")', "GET", { latitude: 41.175531, longitude: -112.00777, maxDistanceKilometers: 100000, maxLocations: 100 }, self.token());
+      call.done(function (data, textStatus, jqXHR) {
+        self.locationIds = ko.observableArray(data);
+
+        //self.getLocations(self, true);
+        //for (var i = 0; i < self.locationIds().length; i++) {
+        //  self.getLocation({ id: self.locationIds()[i], dateLastModified: null }, self);
+        //}
+      });
+
+    };
+
+    this.getLocations = function (context, bindToKnockout) {
+
+      var self = context;
+
+      self.locations.removeAll();
+
+      if (self.locationIds() && self.locationIds().length > 0) {
+        for (var i = 0; i < self.locationIds().length; i++) {
+          self.getLocation({ id: self.locationIds()[i], dateLastModified: null }, self, bindToKnockout);
+        }
+      }
+
+    };
+
+    this.getLocations_click = function (e) {
+
+      var self = this;
+
+      self.getLocations(self, true);
+
+    };
+
+    this.bombard = function () {
+
+      var self = this;
+
+      for (var i = 0; i < 100; i++) {
+        self.getLocations(self, false);
+      }
+
+    };
+
+    this.getUserOwnedEditedLocations = function (args, context) {
+
+      var self = context;
+
+      var call = self.call('/api/@Url.Action("GetUserOwnedEditedLocations", "Location")', "POST", null, self.token());
+      call.done(function (data, textStatus, jqXHR) {
+        var t = "t";
+
+        //self.getLocations(self, true);
+        //for (var i = 0; i < self.locationIds().length; i++) {
+        //  self.getLocation({ id: self.locationIds()[i], dateLastModified: null }, self);
+        //}
+      });
+
+    };
+
+    this.getLocationImage = function (args, context) {
+
+      var self = context;
+
+      var call = self.call('/api/@Url.Action("GetLocationImage", "Location")/' + 1, "POST", { id: 1 }, self.token());
+        call.done(function (data, textStatus, jqXHR) {
+          var t = "t";
+
+          //self.getLocations(self, true);
+          //for (var i = 0; i < self.locationIds().length; i++) {
+          //  self.getLocation({ id: self.locationIds()[i], dateLastModified: null }, self);
+          //}
+        });
+
+      };
+
+      this.sightsAndSoundsTest = function(args, context) {
+
+        var self = context;
+
+        var call = self.call('/api/@Url.Action("GetPagedVideosByGHLocationId", "SightsAndSounds")', "GET", { id: 1, page: 1, pageSize: 10 }, self.token());
+        call.done(function (data, textStatus, jqXHR) {
+          var t = "t";
+
+          //self.getLocations(self, true);
+          //for (var i = 0; i < self.locationIds().length; i++) {
+          //  self.getLocation({ id: self.locationIds()[i], dateLastModified: null }, self);
+          //}
+        });
+
+      };
+
+      this.constructor();
+    }
+
+    $(document).ready(function () {
+
+      try {
+        ko.applyBindings(new RestTest());
+      }
+      catch (ex) {
+        alert(ex);
+      }
+
+    });
+
+  </script>
+}

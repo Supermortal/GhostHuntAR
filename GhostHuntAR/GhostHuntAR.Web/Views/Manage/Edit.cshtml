@@ -1,0 +1,11 @@
+﻿@model GhostHuntAR.Infrastructure.Models.GHLocation
+
+@{
+  ViewBag.Title = "Edit Location";
+}
+
+@Styles.Render("~/Content/manage")
+
+<div class="gh-manage-edit-content" id="content">
+  @{ Html.RenderPartial("EditLocation", Model);}
+</div>

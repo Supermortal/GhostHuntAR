@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard Test</title>
+    <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.4.custom.min.css"/>
+    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Scada:400,700|Montserrat+Subrayada:400,700' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      
+      try {
+
+        $(document).ready(function() {
+          $("#userDashboardTabs").tabs();
+        });
+      
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+
+    </script>
+  </head>
+<body>
+  <div id="mainHeader">
+    <h1><a href="/">Ghost HuntAR</a></h1>
+  </div>
+
+  <hr />
+
+  <div id="dashboardContent">
+
+    <div class="dashboard-left">
+      <div class="dashboard-left-header">
+        <h2>Test Title</h2>
+        <a href="#"><img src="url.png" /></a>
+      </div>
+
+      <div class="dashboard-left-top">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sit amet tellus risus. In in feugiat turpis, ut imperdiet velit. Morbi sed faucibus orci. In aliquet ligula sapien, et convallis felis feugiat sit amet. Sed ac pellentesque libero, eget aliquet turpis. Maecenas fringilla turpis in massa aliquam, vitae porta erat tempor. Sed vel quam lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam eget vestibulum tortor, id sodales felis. In hendrerit mi dapibus, mattis metus eu, dictum augue. Etiam tempor convallis suscipit.</p>
+
+        Nunc vel viverra urna, eget pretium lorem. In hac habitasse platea dictumst. Sed nec imperdiet leo. Aliquam accumsan ligula nulla, eget dictum erat aliquet non. Nam feugiat est ut odio egestas tempor in sed arcu. Mauris dui lorem, egestas quis euismod nec, tincidunt sit amet lectus. Duis vitae augue sed ante vestibulum egestas. Nam dictum mollis ante, nec tincidunt urna blandit a. Vivamus sapien tellus, pellentesque sit amet euismod sit amet, adipiscing sed odio. Nam auctor erat consequat rutrum pharetra. Ut suscipit vehicula lectus. Suspendisse mattis augue erat, eu fringilla velit facilisis in. Cras iaculis volutpat mauris quis imperdiet. Donec rutrum condimentum vehicula. Pellentesque ullamcorper rutrum lacus, at tristique sem fermentum ac. Nullam eu risus mauris.
+
+        Morbi sed congue dui. Cras non lectus in leo convallis eleifend et a mauris. Nullam porta est vel pellentesque aliquet. Nam sit amet dictum justo, vestibulum imperdiet nibh. Suspendisse adipiscing eleifend augue sed tincidunt. Curabitur iaculis, est vel imperdiet convallis, nulla mi gravida urna, quis vulputate risus diam a est. Integer mattis tristique ligula, in vulputate risus accumsan vestibulum. Sed sit amet egestas dolor. Suspendisse eget turpis mauris. Integer vitae mauris vulputate, convallis libero et, aliquet orci. Mauris porta ante mauris, eget gravida nulla condimentum ut.
+
+        Duis tortor odio, mollis et iaculis sit amet, ullamcorper vel tortor. Duis eget viverra turpis. Phasellus augue lectus, vehicula id est et, scelerisque consectetur purus. Integer ipsum nisi, tempus vitae turpis a, volutpat pharetra mauris. Maecenas ac mollis sem, in aliquet urna. Pellentesque vulputate sem diam, eget vestibulum augue dictum at. In nec nibh a est feugiat scelerisque.
+
+        Aliquam sapien turpis, dapibus dapibus nulla eu, porta iaculis tellus. Etiam non neque mollis, rutrum tellus eget, pharetra arcu. Donec sit amet augue euismod, sodales diam et, fringilla sapien. Nunc quis ipsum metus. Curabitur at lorem cursus, lobortis turpis nec, faucibus nisl. Nulla facilisi. Ut sodales nisl vel orci ultricies, eget feugiat orci pellentesque. Etiam lacinia diam in ipsum sodales, non luctus diam suscipit. In eget dolor tortor. Quisque tincidunt faucibus justo at pellentesque. Nam porta, sapien vel tempor viverra, mauris nunc pulvinar lectus, pharetra gravida quam nunc vulputate purus. Nulla facilisi. Quisque ullamcorper accumsan eleifend. Sed sed sem libero. Vivamus tincidunt, dui id ullamcorper cursus, eros velit adipiscing nisl, suscipit laoreet ante est sit amet quam.
+      </div>
+
+      <div class="dashboard-left-bottom">
+
+      </div>
+
+    </div>
+
+    <div class="dashboard-right">
+      <div id="userDashboardTabs">
+        <ul>
+          <li><a href="#soundContainer">Sound</a></li>
+          <li><a href="#videoContainer">Video</a></li>
+          <li><a href="#imageContainer">Image</a></li>
+          <li><a href="#textContainer">Text</a></li>
+        </ul>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="soundContainer">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sit amet tellus risus. In in feugiat turpis, ut imperdiet velit. Morbi sed faucibus orci. In aliquet ligula sapien, et convallis felis feugiat sit amet. Sed ac pellentesque libero, eget aliquet turpis. Maecenas fringilla turpis in massa aliquam, vitae porta erat tempor. Sed vel quam lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam eget vestibulum tortor, id sodales felis. In hendrerit mi dapibus, mattis metus eu, dictum augue. Etiam tempor convallis suscipit.</p>
+
+          Nunc vel viverra urna, eget pretium lorem. In hac habitasse platea dictumst. Sed nec imperdiet leo. Aliquam accumsan ligula nulla, eget dictum erat aliquet non. Nam feugiat est ut odio egestas tempor in sed arcu. Mauris dui lorem, egestas quis euismod nec, tincidunt sit amet lectus. Duis vitae augue sed ante vestibulum egestas. Nam dictum mollis ante, nec tincidunt urna blandit a. Vivamus sapien tellus, pellentesque sit amet euismod sit amet, adipiscing sed odio. Nam auctor erat consequat rutrum pharetra. Ut suscipit vehicula lectus. Suspendisse mattis augue erat, eu fringilla velit facilisis in. Cras iaculis volutpat mauris quis imperdiet. Donec rutrum condimentum vehicula. Pellentesque ullamcorper rutrum lacus, at tristique sem fermentum ac. Nullam eu risus mauris.
+
+          Morbi sed congue dui. Cras non lectus in leo convallis eleifend et a mauris. Nullam porta est vel pellentesque aliquet. Nam sit amet dictum justo, vestibulum imperdiet nibh. Suspendisse adipiscing eleifend augue sed tincidunt. Curabitur iaculis, est vel imperdiet convallis, nulla mi gravida urna, quis vulputate risus diam a est. Integer mattis tristique ligula, in vulputate risus accumsan vestibulum. Sed sit amet egestas dolor. Suspendisse eget turpis mauris. Integer vitae mauris vulputate, convallis libero et, aliquet orci. Mauris porta ante mauris, eget gravida nulla condimentum ut.
+
+          Duis tortor odio, mollis et iaculis sit amet, ullamcorper vel tortor. Duis eget viverra turpis. Phasellus augue lectus, vehicula id est et, scelerisque consectetur purus. Integer ipsum nisi, tempus vitae turpis a, volutpat pharetra mauris. Maecenas ac mollis sem, in aliquet urna. Pellentesque vulputate sem diam, eget vestibulum augue dictum at. In nec nibh a est feugiat scelerisque.
+
+          Aliquam sapien turpis, dapibus dapibus nulla eu, porta iaculis tellus. Etiam non neque mollis, rutrum tellus eget, pharetra arcu. Donec sit amet augue euismod, sodales diam et, fringilla sapien. Nunc quis ipsum metus. Curabitur at lorem cursus, lobortis turpis nec, faucibus nisl. Nulla facilisi. Ut sodales nisl vel orci ultricies, eget feugiat orci pellentesque. Etiam lacinia diam in ipsum sodales, non luctus diam suscipit. In eget dolor tortor. Quisque tincidunt faucibus justo at pellentesque. Nam porta, sapien vel tempor viverra, mauris nunc pulvinar lectus, pharetra gravida quam nunc vulputate purus. Nulla facilisi. Quisque ullamcorper accumsan eleifend. Sed sed sem libero. Vivamus tincidunt, dui id ullamcorper cursus, eros velit adipiscing nisl, suscipit laoreet ante est sit amet quam.
+        </div>
+
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="videoContainer">
+
+        </div>
+
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="imageContainer">
+
+        </div>
+
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="textContainer">
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

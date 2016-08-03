@@ -1,0 +1,15 @@
+﻿@model IEnumerable<GhostHuntAR.Infrastructure.Models.Sound>
+
+<ul>
+  @foreach (var sound in Model)
+  {
+    <li>
+      @Html.ActionLink(sound.Description, "Index", "Sound", new {id = sound.SoundID}, null) - 
+      @Html.ActionLink("Edit", "Edit", "Sound", new {id = sound.SoundID}, null) | 
+      @using (Html.BeginForm("Delete", "Sound", new {id = sound.SoundID}, FormMethod.Post, new {@class = "inline"}))
+      {
+        <input style="border: 0 solid black !important; background: none; width: 60px !important;" class="no-border inline link" value="Delete" type="submit"/>
+      }
+    </li>
+  }
+</ul>

@@ -1,0 +1,23 @@
+﻿@model GhostHuntAR.Infrastructure.Models.FullText
+
+@{
+  ViewBag.Title = "Edit";
+}
+
+<div id="content" class="centered">
+
+  @using (Html.BeginForm("Edit", "Text", new {id = Model.Text.TextID}, FormMethod.Post, new {enctype = "multipart/form-data"}))
+  {
+    <h3>Title: </h3>
+    <input value="@Model.Text.Title" type="text" name="title" />
+    <br />
+    <h3>Body: </h3>
+    <textarea name="textBody">@Model.RawText</textarea>
+
+    <br />
+    <br />
+
+    <input type="submit" value="Submit"/>
+  }
+    
+</div>

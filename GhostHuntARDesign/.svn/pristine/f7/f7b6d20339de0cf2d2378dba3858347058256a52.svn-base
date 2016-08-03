@@ -1,0 +1,129 @@
+body {
+  background: #000000; /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxJSIgc3RvcC1jb2xvcj0iIzRhNzA3YSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjY5JSIgc3RvcC1jb2xvcj0iIzRmNjU2OCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvcmFkaWFsR3JhZGllbnQ+CiAgPHJlY3QgeD0iLTUwIiB5PSItNTAiIHdpZHRoPSIxMDEiIGhlaWdodD0iMTAxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+  background: -moz-radial-gradient(center, ellipse cover,  #000000 0%, #4a707a 1%, #4f6568 69%, #000000 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#000000), color-stop(1%,#4a707a), color-stop(69%,#4f6568), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #000000 0%,#4a707a 1%,#4f6568 69%,#000000 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover,  #000000 0%,#4a707a 1%,#4f6568 69%,#000000 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #000000 0%,#4a707a 1%,#4f6568 69%,#000000 100%); /* IE10+ */
+  background: radial-gradient(ellipse at center,  #000000 0%,#4a707a 1%,#4f6568 69%,#000000 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+  color: white;
+  font-family: 'Scada', sans-serif;
+}
+
+#dashboardContent {
+  background-color: #9E9E9E;
+  height: 1000px;
+  width: 90%;
+  margin: auto;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  text-align: center;
+  padding: 20px;
+}
+
+#mainHeader {
+  margin-top: -2%;
+  height: 5%;
+  font-family: 'Scada', sans-serif;
+  text-align: center;
+  margin-bottom: -1.5%;
+}
+
+#mainHeader a {
+  font-size: 0.8em;
+  letter-spacing: 0.4em;
+  color: #F9F9F9;
+  text-decoration: none;
+}
+
+#userDashboardTabs {
+  height: 100%;
+  overflow: auto;
+  font-size: 0.9em;
+}
+
+#userDashboardTabs li:first-child {
+  margin-left: 10%;
+}
+
+#userDashboardTabs li {
+  font-size: 0.7em !important;
+  margin: auto;
+  margin-right: 6px;
+}
+
+.dashboard-left {
+  /*border: 2px solid #262626;*/
+  height: 100%;
+  width: 68%;
+  display: inline-block;
+  margin-right: 2%;
+  /*-webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #1F2829;*/
+  /*word-wrap: break-word;
+  white-space: nowrap;*/
+  vertical-align:top;
+  text-align: left;
+}
+
+.dashboard-left-header {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #1F2829;
+  height: 7.25%;
+  padding: 10px;
+  /*overflow: auto;*/
+}
+
+.dashboard-left-header h2 {
+  text-align: left;
+  padding-left: 10%;
+  display: inline-block;
+}
+
+.dashboard-left-header img {
+  float: right;
+  height: 70%;
+  width: 10%;
+  display: inline-block;
+  /*position: relative;
+  top: -82%;*/
+  margin-top: 1.25%;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  margin-right: 4%;
+}
+
+.dashboard-left-top {
+  margin-top: 1%;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #1F2829;
+  height: 21.75%;
+  /*font-family: 'Montserrat Subrayada', sans-serif;*/
+  overflow: auto;
+  padding: 15px;
+}
+
+.dashboard-left-bottom {
+  margin-top: 3%;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #1F2829;
+  height: 62.8%;
+  overflow: auto;
+}
+
+.dashboard-right {
+  /*border: 2px solid #2B2316;*/
+  height: 99.2%;
+  width: 28%;
+  display: inline-block;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #1F2829;
+}

@@ -1,0 +1,38 @@
+﻿.user-settings-content {
+  background-color: #1f2428;
+  width: 80%;
+  padding: 20px;
+}
+
+.user-settings-admin-options {
+  list-style-type: none;
+  margin: auto;
+  border: 2px solid gray;
+  width: 50%;
+  padding: 10px;
+}
+
+.user-settings-admin-options li {
+  text-align: center;
+  margin: auto;
+}
+
+.user-settings-list {
+  margin-left: -40px;
+  list-style-type: none;
+}
+
+.user-settings-list textarea {
+  width: 200%;
+  height: 500px;
+}
+
+.user-settings-list li {
+  text-align: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+.user-setting-item {
+  
+}

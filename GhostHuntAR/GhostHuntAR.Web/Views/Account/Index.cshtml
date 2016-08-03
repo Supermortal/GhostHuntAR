@@ -1,0 +1,489 @@
+﻿@using GhostHuntAR.Infrastructure.Helpers
+@model GhostHuntAR.Infrastructure.Models.UserProfile
+
+@{
+  ViewBag.Title = Model.Name;
+}
+
+@Styles.Render("~/Content/account")
+
+<div id="content" class="user-page-content">
+  <div class="user-page-content-left main-background-color">
+    <br />
+    @switch (Model.Role)
+    {
+      case "user":
+      {
+      }
+        break;
+      case "pro_user":
+      {
+        <span class="user-page-role" style="background-color: #431656; border-color: #431656;">Pro User</span>
+      }
+        break;
+      case "admin":
+      {
+        <span class="user-page-role" style="background-color: silver; border-color: silver;">Admin</span>
+      }
+        break;
+    }
+    <br />
+    <a target="_blank" href="@Url.Action("Image", "Account", new {id = Model.UserId})"><img class="user-page-profile-picture" alt="Profile Picture" src="@Url.Action("Image", "Account", new {id = Model.UserId})" /></a>
+    <br />
+    <br />
+    <hr />
+    <span>User Name:</span>
+    <span>@Model.UserName</span>
+    <br />
+    <br />
+    <span>Email:</span>
+    <a href="mailto:@Model.Email">@Model.Email</a>
+  </div>
+  <div class="user-page-content-center main-background-color">
+    <h1 style="font-size: 2.1em;">@Model.Name</h1>
+    <hr />
+    <br />
+    <br />
+    @Html.Raw(Model.Biography)
+  </div>
+  <div class="user-page-content-right main-background-color">
+    <div style="display: none;" id="userPageSightsAndSoundsDiv">
+      <ul id="userPageSightsAndSoundsUl">
+        <li><a href="#soundContainer">Sound</a></li>
+        <li><a href="#videoContainer">Video</a></li>
+        <li><a href="#imageContainer">Image</a></li>
+        <li><a href="#textContainer">Text</a></li>
+        <li><a href="#locationContainer">Locations</a></li>
+      </ul>
+
+      <div class="user-page-dashboard-tab" style="padding-left: 30px; text-align: left;" id="soundContainer">
+
+      </div>
+
+
+      <div class="user-page-dashboard-tab" style="padding-left: 30px; text-align: left;" id="videoContainer">
+
+      </div>
+
+
+      <div class="user-page-dashboard-tab" style="padding-left: 30px; text-align: left;" id="imageContainer">
+
+      </div>
+
+
+      <div class="user-page-dashboard-tab" style="padding-left: 30px; text-align: left;" id="textContainer">
+
+      </div>
+
+      <div class="user-page-dashboard-tab" style="padding-left: 30px; text-align: left;" id="locationContainer">
+
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display: none;" id="editDialog">
+  </div>
+</div>
+
+@section scripts
+{
+  @Scripts.Render("~/bundles/sightsandsoundslazyload")
+
+  <script type="text/javascript">
+
+    var sasa = new SightsAndSoundsAjax({
+      urls: {
+        user: {
+          sound: '@Url.Action("GetPagedSoundsByUserName", "Sound", new {id = Model.UserName})',
+          image: '@Url.Action("GetPagedImagesByUserName", "Image", new {id = Model.UserName})',
+          text: '@Url.Action("GetPagedTextsByUserName", "Text", new {id = Model.UserName})',
+          video: '@Url.Action("GetPagedVideosByUserName", "Video", new {id = Model.UserName})',
+          locations: '@Url.Action("GetPagedLocationsByUserName", "Manage", new {id = Model.UserName})'
+        },
+
+        location: {
+          sound: '@Url.Action("GetPagedSoundsByGHLocationId", "Sound", new {id = string.Empty})',
+          image: '@Url.Action("GetPagedImagesByGHLocationId", "Image", new {id = string.Empty})',
+          text: '@Url.Action("GetPagedTextsByGHLocationId", "Text", new {id = string.Empty})',
+          video: '@Url.Action("GetPagedVideosByGHLocationId", "Video", new {id = string.Empty})'
+        }
+
+      },
+
+      containerIds: {
+        sound: "#soundContainer",
+        image: "#imageContainer",
+        text: "#textContainer",
+        video: "#videoContainer",
+        locations: "#locationContainer"
+      },
+
+      pageSizes: {
+        sound: '@ViewBag.soundPageSize',
+        image: '@ViewBag.imagePageSize',
+        text: '@ViewBag.textPageSize',
+        video: '@ViewBag.videoPageSize',
+        locations: '@ViewBag.locationPageSize'
+      },
+
+      viewUrls: {
+        sound: '@Url.Action("Index", "Sound", new {id = string.Empty})',
+        image: '@Url.Action("Index", "Image", new {id = string.Empty})',
+        text: '@Url.Action("Display", "Text", new {id = string.Empty})',
+        video: '@Url.Action("Display", "Video", new {id = string.Empty})',
+        locations: '@Url.Action("AddSightsAndSounds", "Manage", new {id = string.Empty})'
+      },
+
+      editUrls: {
+        sound: '@Url.Action("Edit", "Sound", new {id = string.Empty})',
+        image: '@Url.Action("Edit", "Image", new {id = string.Empty})',
+        text: '@Url.Action("Edit", "Text", new {id = string.Empty})',
+        video: '@Url.Action("Edit", "Video", new {id = string.Empty})',
+        locations: '@Url.Action("Edit", "Manage", new {id = string.Empty})'
+      },
+
+      deleteUrls: {
+        sound: '@Url.Action("Delete", "Sound", new {id = string.Empty})',
+        image: '@Url.Action("Delete", "Image", new {id = string.Empty})',
+        text: '@Url.Action("Delete", "Text", new {id = string.Empty})',
+        video: '@Url.Action("Delete", "Video", new {id = string.Empty})'
+      },
+
+      thumbNailUrl: '@Url.Action("ThumbNail", "Image", new {id = string.Empty})',
+
+      locationTitleUrl: '@Url.Action("GetLocationTitle", "Manage", new {id = string.Empty})',
+
+      currentUserName: '@UserHelper.Instance.CurrentUserName',
+
+      currentUserId: parseInt('@UserHelper.Instance.CurrentUserId'),
+
+      mode: 'user',
+
+      objectHandlers: {
+        sound: function(obj, locationTitle, context) {
+
+          var div = $("<div class='sound-item'></div>");
+
+          var h3 = $("<h3 title='View'></h3>");
+          $(h3).html(obj.Description);
+          $(div).append(h3);
+
+          var h6 = $("<h6 title='View'></h6>");
+          $(h6).html(locationTitle);
+          $(div).append(h6);
+
+          var br = $("<br />");
+          $(div).append(br);
+
+          if (context.currentUserName == obj.UserName) {
+
+            var iconContainer = $('<div class="side-icon-container"></div>');
+
+            //var aEdit = $('<a href="' + context.editUrls[context.type] + '/' + obj.SoundID + '"></a>');
+            var imgEdit = $("<img class='pointer' alt='Edit' title='Edit' src='/Content/shared_images/editicon.png' />");
+            if (context.clickHandlers && context.clickHandlers["sound"]) {
+              $(imgEdit).click(function(e) {
+                context.clickHandlers["sound"](obj, this, e, context, h3);
+              });
+            }
+            //$(aEdit).append(imgEdit);
+            $(iconContainer).append(imgEdit);
+
+            var span = $("<span>|</span>");
+            $(iconContainer).append(span);
+
+            var formDelete = $('<form style="display: inline-block; margin: 0 !important; padding: 0 !important;" action="' + context.deleteUrls[context.type] + '" method="POST"></form>');
+
+            var hiddenDelete = $('<input name="id" type="hidden" />');
+            $(hiddenDelete).val(obj.SoundID);
+            $(formDelete).append(hiddenDelete);
+
+            var submitDelete = $('<input title="Delete" type="submit" value="" class="submit-delete-icon" />');
+            $(formDelete).append(submitDelete);
+
+            $(iconContainer).append(formDelete);
+
+            $(div).append(iconContainer);
+
+          }
+
+          $(context.containerIds[context.type]).append(div);
+
+        },
+
+        image: function(obj, locationTitle, context) {
+
+          var div = $("<div class='image-item'></div>");
+          var url = context.thumbNailUrl;
+
+          var imageDiv = $("<div class='image-item-thumb-div'></div>");
+          var image = new Image();
+          image.src = url + "/" + obj.ImageID;
+          $(image).addClass("image-item-thumb");
+          $(image).prop("title", obj.Caption);
+          $(image).prop("alt", obj.Caption);
+          $(image).hide();
+          $(imageDiv).append(image);
+
+          $(div).append(imageDiv);
+
+          var br = $("<br />");
+          $(div).append(br);
+
+          var h3 = $("<h3 title='View'></h3>");
+          $(h3).html(obj.Caption);
+          $(div).append(h3);
+
+          var h6 = $("<h6 title='View'></h6>");
+          $(h6).html(locationTitle);
+          $(div).append(h6);
+
+          var br2 = $("<br />");
+          $(div).append(br2);
+
+          var iconContainer = $('<div class="side-icon-container-image"></div>');
+
+          var aFullSize = $('<a target="_blank" href="' + context.viewUrls[context.type] + '/' + obj.ImageID + '"></a>');
+          var imgFullSize = $("<img alt='Edit' title='View Full Size' src='/Content/shared_images/fullsizeicon.png' />");
+          $(aFullSize).append(imgFullSize);
+          $(iconContainer).append(aFullSize);
+
+          if (context.currentUserName == obj.UserName) {
+
+            var span = $("<span>|</span>");
+            $(iconContainer).append(span);
+
+            //var aEdit = $('<a href="' + context.editUrls[context.type] + '/' + obj.ImageID + '"></a>');
+            var imgEdit = $("<img class='pointer' alt='Edit' title='Edit' src='/Content/shared_images/editicon.png' />");
+            if (context.clickHandlers && context.clickHandlers["image"]) {
+              $(imgEdit).click(function(e) {
+                context.clickHandlers["image"](obj, this, e, context, h3);
+              });
+            }
+            //$(aEdit).append(imgEdit);
+            $(iconContainer).append(imgEdit);
+
+            var span2 = $("<span>|</span>");
+            $(iconContainer).append(span2);
+
+            var formDelete = $('<form style="display: inline-block; margin: 0 !important; padding: 0 !important;" action="' + context.deleteUrls[context.type] + '" method="POST"></form>');
+
+            var hiddenDelete = $('<input name="id" type="hidden" />');
+            $(hiddenDelete).val(obj.SoundID);
+            $(formDelete).append(hiddenDelete);
+
+            var submitDelete = $('<input title="Delete" type="submit" value="" class="submit-delete-icon" />');
+            $(formDelete).append(submitDelete);
+
+            $(iconContainer).append(formDelete);
+
+          }
+
+          $(div).append(iconContainer);
+
+          $(context.containerIds[context.type]).append(div);
+
+          $(image).load(function() {
+            $(image).show();
+          });
+
+        },
+
+        text: function(obj, locationTitle, context) {
+
+          var div = $("<div class='text-item'></div>");
+
+          var h3 = $("<h3 title='View'></h3>");
+          $(h3).html(obj.Title);
+          $(div).append(h3);
+
+          var h6 = $("<h6 title='View'></h6>");
+          $(h6).html(locationTitle);
+          $(div).append(h6);
+
+          var br = $("<br />");
+          $(div).append(br);
+
+          if (context.currentUserName == obj.UserName) {
+
+            var iconContainer = $('<div class="side-icon-container"></div>');
+
+            //var aEdit = $('<a href="' + context.editUrls[context.type] + '/' + obj.SoundID + '"></a>');
+            var imgEdit = $("<img class='pointer' alt='Edit' title='Edit' src='/Content/shared_images/editicon.png' />");
+            if (context.clickHandlers && context.clickHandlers["text"]) {
+              $(imgEdit).click(function(e) {
+                context.clickHandlers["text"](obj, this, e, context, h3);
+              });
+            }
+            //$(aEdit).append(imgEdit);
+            $(iconContainer).append(imgEdit);
+
+            var span = $("<span>|</span>");
+            $(iconContainer).append(span);
+
+            var formDelete = $('<form style="display: inline-block; margin: 0 !important; padding: 0 !important;" action="' + context.deleteUrls[context.type] + '" method="POST"></form>');
+
+            var hiddenDelete = $('<input name="id" type="hidden" />');
+            $(hiddenDelete).val(obj.TextID);
+            $(formDelete).append(hiddenDelete);
+
+            var submitDelete = $('<input title="Delete" type="submit" value="" class="submit-delete-icon" />');
+            $(formDelete).append(submitDelete);
+
+            $(iconContainer).append(formDelete);
+
+            $(div).append(iconContainer);
+
+          }
+
+          $(context.containerIds[context.type]).append(div);
+
+        },
+
+        video: function(obj, locationTitle, context) {
+
+          var div = $("<div class='video-item'></div>");
+
+          var h3 = $("<h3 title='View'></h3>");
+          $(h3).html(obj.Description);
+          $(div).append(h3);
+
+          var h6 = $("<h6 title='View'></h6>");
+          $(h6).html(locationTitle);
+          $(div).append(h6);
+
+          var br = $("<br />");
+          $(div).append(br);
+
+          var iconContainer = $('<div class="side-icon-container"></div>');
+
+          var aFullSize = $('<a target="_blank" href="' + context.viewUrls[context.type] + '/' + obj.VideoID + '"></a>');
+          var imgFullSize = $("<img class='pointer' alt='Edit' title='View Full Size' src='/Content/shared_images/fullsizeicon.png' />");
+          $(aFullSize).append(imgFullSize);
+          $(iconContainer).append(aFullSize);
+
+          if (context.currentUserName == obj.UserName) {
+
+            var span = $("<span>|</span>");
+            $(iconContainer).append(span);
+
+            //var aEdit = $('<a href="' + context.editUrls[context.type] + '/' + obj.VideoID + '"></a>');
+            var imgEdit = $("<img alt='Edit' title='Edit' src='/Content/shared_images/editicon.png' />");
+            if (context.clickHandlers && context.clickHandlers["video"]) {
+              $(imgEdit).click(function(e) {
+                context.clickHandlers["video"](obj, this, e, context, h3);
+              });
+            }
+            //$(aEdit).append(imgEdit);
+            $(iconContainer).append(imgEdit);
+
+            span = $("<span>|</span>");
+            $(iconContainer).append(span);
+
+            var formDelete = $('<form style="display: inline-block; margin: 0 !important; padding: 0 !important;" action="' + context.deleteUrls[context.type] + '" method="POST"></form>');
+
+            var hiddenDelete = $('<input name="id" type="hidden" />');
+            $(hiddenDelete).val(obj.VideoID);
+            $(formDelete).append(hiddenDelete);
+
+            var submitDelete = $('<input title="Delete" type="submit" value="" class="submit-delete-icon" />');
+            $(formDelete).append(submitDelete);
+
+            $(iconContainer).append(formDelete);
+
+          }
+
+          $(div).append(iconContainer);
+          $(context.containerIds[context.type]).append(div);
+
+        },
+
+        locations: function(obj, locationTitle, context) {
+
+          var div = $("<div class='locations-item'></div>");
+
+          var h3 = $("<h3 title='View'></h3>");
+          $(h3).html(obj.Title);
+          $(div).append(h3);
+
+          var br = $("<br />");
+          $(div).append(br);
+
+          var iconContainer = $('<div class="side-icon-container"></div>');
+
+          if (context.currentUserId == obj.CreatedByUserID) {
+
+            var aEdit = $('<a href="' + context.editUrls[context.type] + '/' + obj.GHLocationID + '"></a>');
+            var imgEdit = $("<img class='pointer' alt='Edit' title='Edit' src='/Content/shared_images/editicon.png' />");
+            $(aEdit).append(imgEdit);
+            $(iconContainer).append(aEdit);
+
+            var span = $("<span>|</span>");
+            $(iconContainer).append(span);
+
+            //var formDelete = $('<form style="display: inline-block; margin: 0 !important; padding: 0 !important;" action="' + context.deleteUrls[context.type] + '" method="POST"></form>');
+
+            //var hiddenDelete = $('<input name="id" type="hidden" />');
+            //$(hiddenDelete).val(obj.SoundID);
+            //$(formDelete).append(hiddenDelete);
+
+            //var submitDelete = $('<input title="Delete" type="submit" value="" class="submit-delete-icon" />');
+            //$(formDelete).append(submitDelete);
+
+            //$(iconContainer).append(formDelete);
+
+          }
+
+          var aAdd = $("<a href='" + context.viewUrls[context.type] + "/" + obj.GHLocationID + "'></a>");
+          var imgAdd = $("<img class='add-image' alt='Add Sights And Sounds' title='Add Sights And Sounds' src='/Content/shared_images/addicon.png' />");
+          $(aAdd).append(imgAdd);
+          $(iconContainer).append(aAdd);
+
+          $(div).append(iconContainer);
+
+          $(context.containerIds[context.type]).append(div);
+
+        }
+
+      }
+
+    });
+
+    var currentScrollPage = 1;
+
+    $(document).ready(function() {
+
+      sasa.setType("sound");
+      sasa.getData();
+
+      $("#userPageSightsAndSoundsDiv").tabs({
+        beforeActivate: function(event, ui) {
+          var newTab = ui.newTab;
+          var a = ($(newTab).children())[0];
+          var type = $(a).html().toLowerCase();
+
+          currentScrollPage = 1;
+
+          sasa.setType(type);
+          sasa.getData();
+        }
+      });
+      $("#userPageSightsAndSoundsDiv").show();
+
+      $(".user-page-dashboard-tab").scroll(function() {
+        if ($(this).scrollTop() + $(this).height() >= ($(this).height() * currentScrollPage)) {
+
+          //if (ud.skipPage == false) {
+          sasa.getData();
+          console.log("Current Scroll Page scroll " + ud.currentScrollPage);
+          currentScrollPage++;
+          //}
+
+        }
+      });
+
+    });
+
+  </script>
+}

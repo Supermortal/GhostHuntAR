@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Log Status";
+}
+
+@section styles
+{
+  @Styles.Render("~/Content/account")
+}
+
+<div id="content" class="centered user-settings-content default-set-height">
+  <h2>Log Status</h2>
+
+  <table class="centered">
+    <tr>
+      <td>Configured: </td>
+      <td>@ViewBag.Configured</td>
+    </tr>
+    <tr>
+      <td>Config File Path: </td>
+      <td>@ViewBag.ConfigFilePath</td>
+    </tr>
+    <tr>
+      <td>Tried To Configured: </td>
+      <td>@ViewBag.TriedToConfigure</td>
+    </tr>
+  </table>
+</div>
+
+

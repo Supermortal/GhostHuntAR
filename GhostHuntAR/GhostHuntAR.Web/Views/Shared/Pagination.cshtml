@@ -1,0 +1,50 @@
+﻿@model GhostHuntAR.Infrastructure.Models.Pagination
+
+@{
+  var totalPages = (int) Math.Ceiling((double) Model.TotalPostsCount/Model.PageSize);
+  var lowerBound = ((int) (Math.Floor((double) (Model.CurrentPage - 1)/10)*10)) + 1;
+  var upperBound = lowerBound + 9;
+
+  upperBound = (upperBound > totalPages) ? totalPages : upperBound;
+}
+
+@if (!(Model.CurrentPage > totalPages))
+{
+  <div class="spaced-bottom pagination">
+        
+    <span style="margin-right: 10px;">@Html.ActionLink("First", Model.Action, Model.Controller, new {type = Model.Type, page = 1}, null)</span>
+        
+    @if (Model.CurrentPage != 1)
+    {
+      <span style="margin-right: 15px;">@Html.ActionLink("Prev", Model.Action, Model.Controller, new {type = Model.Type, page = Model.CurrentPage - 1}, null)</span>
+    }
+    else
+    {
+      <span class="pagination-active" style="margin-right: 15px;">Prev</span>
+    }
+        
+    @for (var i = lowerBound; i <= upperBound; i++)
+    {
+      if (i == Model.CurrentPage)
+      {
+        <span><strong>@Html.ActionLink(i.ToString(), Model.Action, Model.Controller, new {type = Model.Type, page = i}, new {@class = "pagination-active"})</strong></span>
+      }
+      else
+      {
+        <span>@Html.ActionLink(i.ToString(), Model.Action, Model.Controller, new {type = Model.Type, page = i}, null)</span>
+      }
+    }
+        
+    @if (Model.CurrentPage != totalPages)
+    {
+      <span style="margin-left: 15px;">@Html.ActionLink("Next", Model.Action, Model.Controller, new {type = Model.Type, page = Model.CurrentPage + 1}, null)</span>
+    }
+    else
+    {
+      <span class="pagination-active" style="margin-left: 15px;">Next</span>
+    }
+        
+    <span style="margin-left: 10px;">@Html.ActionLink("Last", Model.Action, Model.Controller, new {type = Model.Type, page = totalPages}, null)</span>
+
+  </div>
+}

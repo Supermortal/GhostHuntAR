@@ -1,0 +1,19 @@
+﻿@model GhostHuntAR.Infrastructure.Models.FullText
+
+@{
+  ViewBag.Title = Model.Text.Title;
+}
+
+<div id="content" class="centered">
+
+  <h2>@Model.Text.Title</h2>
+    
+  <br />
+    
+  <p class="spaced-bottom-more">
+    @Model.RawText
+  </p>
+    
+  <br />
+    
+</div>

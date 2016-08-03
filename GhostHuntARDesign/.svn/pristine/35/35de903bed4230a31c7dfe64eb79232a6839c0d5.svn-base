@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard Test</title>
+    <link href='http://fonts.googleapis.com/css?family=Scada:400,700|Montserrat+Subrayada:400,700' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+<body>
+  <div id="mainHeader">
+    <h1><a href="/">Ghost HuntAR</a></h1>
+  </div>
+
+  <hr />
+
+  <div id="dashboardContent">
+
+    <div class="dashboard-left">
+      <div class="dashboard-left-header">
+        <h2>Test Title</h2>
+        <a href="#"><img src="url.png" /></a>
+      </div>
+
+      <div class="dashboard-left-top">
+
+      </div>
+
+      <div class="dashboard-left-bottom">
+
+      </div>
+
+    </div>
+
+    <div class="dashboard-right">
+
+    </div>
+  </div>
+
+</body>
+</html>

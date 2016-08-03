@@ -1,0 +1,21 @@
+﻿@model GhostHuntAR.Infrastructure.Models.Sound
+
+@{
+  ViewBag.Title = "Edit";
+}
+
+<div id="content" class="centered">
+
+  @using (Html.BeginForm("Edit", "Sound", new {id = Model.SoundID}, FormMethod.Post, new {enctype = "multipart/form-data"}))
+  {
+    <input type="hidden" name="referrerUrl" value="@ViewBag.ReferrerUrl"/>
+        @*<span>Sound: </span><input type="file" name="sound" /> <br />*@
+    <span>Sound Description: </span><input type="text" name="soundDescription" value="@Model.Description" />
+
+    <br />
+    <br />
+
+    <input type="submit" value="Submit"/>
+  }
+    
+</div>

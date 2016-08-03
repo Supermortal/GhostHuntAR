@@ -1,0 +1,122 @@
+﻿@{
+  ViewBag.Title = "Load Test";
+}
+
+@Styles.Render("~/Content/account")
+
+<div id="content" class="user-page-content main-background-color default-set-height" style="width: 66%;">
+  <h2>Load Test</h2>
+  
+  <input type="button" id="startCacheHelperButton" value="Start Cache Helper" />
+  <br />
+  <input type="button" id="startLoadTestButton" value="Start Load Test" />
+  <br />
+  <input type="button" id="killLoadTestButton" value="Kill Load Test" />
+
+  <div id="dataDiv">
+
+  </div>
+</div>
+
+@section scripts {
+  <script type="text/javascript">
+
+  var CacheLoadTest = {};
+  CacheLoadTest.timer = null;
+
+  CacheLoadTest.call = function (id) {
+
+    var postData = {
+      id: id
+    };
+
+    $.ajax({
+      url: '@Url.Action("LoadTestCall")',
+      type: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      dataType: 'json',
+      data: JSON.stringify(postData),
+      context: document.body,
+      success: function (data) {
+        //alert(data.Status);
+        if (data.Status == "OK") {
+          //alert(data.Value.Title);
+          //$("#dataDiv").append($("<p>" + data.Value.Title + "</p>"));
+        }
+      },
+      error: function (e) {
+        console.log(e);
+      }
+    });
+
+  }
+
+  $(document).ready(function () {
+
+    $("#startLoadTestButton").click(function () {
+
+      CacheLoadTest.call(1);
+
+      CacheLoadTest.timer = setInterval(function () {
+
+        var index = ((Math.random() * 100) % 4) + 2;
+        CacheLoadTest.call(index);
+
+      }, 1000);
+
+    });
+
+    $("#killLoadTestButton").click(function () {
+
+      clearInterval(CacheLoadTest.timer);
+
+      $.ajax({
+        url: '@Url.Action("KillLoadTest")',
+          type: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          dataType: 'json',
+          //data: JSON.stringify(postData),
+          context: document.body,
+          success: function (data) {
+            //alert(data.Status);
+            if (data.Status == "OK") {
+              //alert(data.Value.Title);
+              //$("#dataDiv").append($("<p>" + data.Value.Title + "</p>"));
+            }
+          },
+          error: function (e) {
+            console.log(e);
+          }
+        });
+
+      });
+
+    $("#startCacheHelperButton").click(function () {
+
+        clearInterval(CacheLoadTest.timer);
+
+        $.ajax({
+          url: '@Url.Action("StartCacheHelper")',
+          type: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          dataType: 'json',
+          //data: JSON.stringify(postData),
+          context: document.body,
+          success: function (data) {
+            //alert(data.Status);
+            if (data.Status == "OK") {
+              //alert(data.Value.Title);
+              //$("#dataDiv").append($("<p>" + data.Value.Title + "</p>"));
+            }
+          },
+          error: function (e) {
+            console.log(e);
+          }
+        });
+
+      });
+
+    });
+
+  </script>
+}

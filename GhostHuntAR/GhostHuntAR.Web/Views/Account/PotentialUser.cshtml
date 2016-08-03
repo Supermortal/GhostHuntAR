@@ -1,0 +1,44 @@
+﻿@using GhostHuntAR.Infrastructure.Models
+@model GhostHuntAR.Infrastructure.Models.TokenRegister.PotentialUser
+
+@{
+  ViewBag.Title = "Potential User";
+}
+
+@section styles
+{
+  @Styles.Render("~/Content/account")
+}
+
+<div class="centered gh-account-potentialuser-content" id="content" style="height: 1000px;">
+  @using (Html.BeginForm())
+  {
+    <label for="ghRole">Role</label>
+    <br />
+    <select name="ghRole">
+      @foreach (var role in Enum.GetValues(typeof (GHRoles)).Cast<GHRoles>())
+      {
+        if (Model.Role == role.ToString())
+        {
+          <option selected="selected">@role.ToString()</option>
+        }
+        else
+        {
+          <option>@role.ToString()</option>
+        }
+      }
+    </select>
+
+    <br />
+    <br />
+
+    @Html.EditorForModel()
+
+    <input type="hidden" name="referrerUrl" value="@ViewBag.referrerUrl"/>
+
+    <br />
+    <br />
+
+    <input type="submit" value="Submit"/>
+  }
+</div>

@@ -1,0 +1,94 @@
+﻿@using GhostHuntAR.Infrastructure.Models.Enums
+@{
+  ViewBag.Title = "Search";
+}
+
+<div id="content" class="centered">
+
+  <h2>Search</h2>
+
+  @using (Html.BeginForm("Results", "Search", FormMethod.Get))
+  {
+    <table class="centered">
+
+      <tr>
+        <td>Address: </td>
+        <td><input type="text" name="address" /></td>
+      </tr>
+
+      <tr>
+        <td>City: </td>
+        <td><input type="text" name="city" /></td>
+      </tr>
+
+      <tr>
+        <td>State: </td>
+        <td>@Html.StatePicker("state")</td>
+      </tr>
+
+      <tr>
+        <td>Zip: </td>
+        <td><input type="text" name="zip" /></td>
+      </tr>
+
+      <tr>
+        <td>Latitude: </td>
+        <td><input type="text" name="latitude" /></td>
+      </tr>
+
+      <tr>
+        <td>Longitude: </td>
+        <td><input type="text" name="longitude" /></td>
+      </tr>
+            
+      <tr>
+        <td>Distance Type: </td>
+        <td>
+          <select name="distanceType">
+            @foreach (var distanceType in Enum.GetValues(typeof (DistanceTypes)).Cast<DistanceTypes>())
+            {
+              <option>@distanceType.ToString()</option>
+            }
+          </select>
+        </td>
+      </tr>
+            
+      <tr>
+        <td>Radius: </td>
+        <td>
+          <select name="radius">
+            <option>5</option>
+            <option>10</option>
+            <option>15</option>
+            <option>20</option>
+            <option>25</option>
+            <option>30</option>
+            <option>35</option>
+            <option>40</option>
+            <option>45</option>
+            <option>50</option>
+            <option>55</option>
+            <option>60</option>
+            <option>65</option>
+            <option>70</option>
+            <option>75</option>
+            <option>80</option>
+            <option>85</option>
+            <option>90</option>
+            <option>95</option>
+            <option>100</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Keywords: </td>
+        <td><input type="text" name="keywords" /></td>
+      </tr>       
+
+    </table>
+
+    <input type="submit" value="Submit" />
+  }
+
+</div>

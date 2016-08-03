@@ -1,0 +1,94 @@
+﻿@using GhostHuntAR.Infrastructure.Helpers
+@using GhostHuntAR.Infrastructure.Models
+@model GhostHuntAR.Infrastructure.Models.UserProfile
+
+@{
+  ViewBag.Title = UserHelper.Instance.CurrentUserName + " Settings";
+}
+
+@section styles
+{
+  @Styles.Render("~/Content/account")
+}
+
+<div id="content" class="user-settings-content" style="height: 1500px;">
+  <p>User Name: @UserHelper.Instance.CurrentUserName</p>
+  <p>Display Name: @UserHelper.Instance.CurrentUser.Name</p>
+  <p>Role: @System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(UserHelper.Instance.CurrentUser.Role.Replace("_", " "))</p>
+
+  <br />
+  <br />
+
+  @if (UserHelper.Instance.IsAdmin)
+  {
+    <p class="centered">ADMIN OPTIONS:</p>
+    <ul class="user-settings-admin-options centered">
+      <li>@Html.ActionLink("Potential Users", "PotentialUsers", "Account", new {target = "_blank"})</li>
+      <li>@Html.ActionLink("Create Potential User", "PotentialUser", "Account", new {target = "_blank"})</li>
+    </ul>
+
+    <br />
+    <br />
+  }
+
+  <ul class="user-settings-list centered">
+    <li id="changePasswordLi">
+      <p class="text-underline">Change Password</p>
+      <div style="display: none;" id="userSettingsChangePasswordDiv" class="user-setting-item">
+        @{Html.RenderPartial("ChangePassword", new LocalPasswordModel());}
+      </div>
+    </li>
+    <li id="editUserLi">
+      <p class="text-underline">Edit User</p>
+      <div style="display: none;" id="userSettingsEditUserDiv" class="user-setting-item" style="height: 500px;">
+        @{Html.RenderPartial("EditUser", new EditUserViewModel(Model));}
+      </div>
+    </li>
+  </ul>
+</div>
+
+@section scripts
+{
+  @*@Scripts.Render("~/bundles/xinha")*@
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      var xinhaInitialized = false;
+
+      $("#editForm").nsmUploader(null, function() {
+        location.href = '@Url.Action("Manage", "Account")';
+      });
+
+      $("#changePasswordLi p").click(function() {
+        var uscpd = $("#userSettingsChangePasswordDiv");
+
+        if (!$(uscpd).is(":visible")) {
+          $(".user-setting-item").hide();
+          $(uscpd).slideDown(500);
+        }
+        else {
+          $(uscpd).slideUp(500);
+        }
+      });
+
+      $("#editUserLi p").click(function() {
+        var useud = $("#userSettingsEditUserDiv");
+
+        if (!$(useud).is(":visible")) {
+          $(".user-setting-item").hide();
+          $(useud).slideDown(500);
+
+          if (xinhaInitialized == false) {
+            //xinha_init();
+            $("#xinhaTextArea").show();
+            xinhaInitialized = true;
+          }
+        }
+        else {
+          $(useud).slideUp(500);
+        }
+      });
+
+    });
+  </script>
+}

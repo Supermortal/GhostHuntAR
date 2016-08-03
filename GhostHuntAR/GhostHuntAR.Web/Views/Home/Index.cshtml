@@ -1,0 +1,46 @@
+﻿@using GhostHuntAR.Infrastructure.Helpers
+@model GhostHuntAR.Infrastructure.Models.LoginModel
+
+@{
+  ViewBag.Title = "";
+}
+
+@section styles
+{
+  @Styles.Render("~/Content/home")
+}
+
+<noscript>
+  You must have javascript enabled to view this site.
+</noscript>
+
+@*<div id="subcontent" class="centered">
+      <a href="@Url.Action("Index", "Home")">
+          <img style="height: 75px; width: 300px; margin-left: -50px;" class="logo" alt="logo" src="~/Content/shared_images/logo.png"/>
+      </a>
+  </div>*@
+
+<div id="content" class="centered">
+
+  @if (UserHelper.Instance.IsAuthenticated)
+  {
+    Html.RenderAction("UserDashboard", "Home", new {id = ViewBag.Id});
+  }
+  else
+  {
+    <h4 class="gh-home-index-description">
+      Ghost HuntAR is a database of haunted locations through the US.
+      Users have the ability to upload images, sounds, videos and text accounts of their experiences at these locations,
+      and they can share them with every other user of Ghost HuntAR.
+    </h4>
+
+    <br />
+    <hr />
+    <div class="main-content-color login-height default-set-height">
+      <div class="gh-home-index-login-partial-container">
+        @{Html.RenderPartial("LoginPartial", Model);}
+      </div>
+    </div>
+  }
+
+</div>

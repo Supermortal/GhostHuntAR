@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard Test</title>
+    <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.4.custom.min.css"/>
+    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Scada:400,700|Montserrat+Subrayada:400,700' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      
+      try {
+
+        $(document).ready(function() {
+          $("#userDashboardTabs").tabs();
+        });
+      
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+
+    </script>
+  </head>
+<body>
+  <div id="mainHeader">
+    <h1><a href="/">Ghost HuntAR</a></h1>
+  </div>
+
+  <hr />
+
+  <div id="dashboardContent">
+
+    <div class="dashboard-left">
+      <div class="dashboard-left-header">
+        <h2></h2>
+        <a href="#"><img src="url.png" /></a>
+      </div>
+
+      <div class="dashboard-left-top">
+        
+      </div>
+
+      <div class="dashboard-left-bottom">
+
+      </div>
+
+    </div>
+
+    <div class="dashboard-right">
+      <div id="userDashboardTabs">
+        <ul>
+          <li><a href="#soundContainer">Sound</a></li>
+          <li><a href="#videoContainer">Video</a></li>
+          <li><a href="#imageContainer">Image</a></li>
+          <li><a href="#textContainer">Text</a></li>
+        </ul>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="soundContainer">
+          
+        </div>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="videoContainer">
+
+        </div>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="imageContainer">
+
+        </div>
+
+        <div class="dashboard-tab" style="padding-left: 30px; text-align: left;" id="textContainer">
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+﻿DELETE FROM SavedSearches WHERE UserId = {0};

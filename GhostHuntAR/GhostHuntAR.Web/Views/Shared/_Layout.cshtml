@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+
+      var image = new Image();
+      image.src = "/Content/shared_images/logo.png";
+
+      image = new Image();
+      image.src = "/Content/shared_images/indeterminateProgressSpinner.gif";
+
+      image = new Image();
+      image.src = "/Content/shared_images/magnifyingglass.png";
+
+      var loadingImage = new Image();
+      loadingImage.src = "/Content/shared_images/loader.gif";
+
+      image = new Image();
+      image.src = "/Content/shared_images/fullsizeicon.png";
+
+      image = new Image();
+      image.src = "/Content/shared_images/addicon.png";
+
+      image = new Image();
+      image.src = "/Content/shared_images/editicon.png";
+
+      image = new Image();
+      image.src = "/Content/shared_images/deleteicon.png";
+
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Stalinist+One|Special+Elite|Londrina+Solid' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Scada:400,700|Montserrat+Subrayada:400,700' rel='stylesheet' type='text/css' />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @RenderSection("styles", required: false)
+
+    <!--[if gte IE 9]>
+      <style type="text/css">
+        .gradient { filter: none; }
+      </style>
+    <![endif]-->
+  </head>
+  <body class="gradient">
+    <div id="fb-root"></div>
+    <script>
+      //window.fbAsyncInit = function () {
+      //    // init the FB JS SDK
+      //    FB.init({
+      //        appId: '133617360181947',                        // App ID from the app dashboard
+      //        channelUrl: '//www.namespacemedia.com/channel.html', // Channel file for x-domain comms
+      //        status: true,                                 // Check Facebook Login status
+      //        xfbml: true                                  // Look for social plugins on the page
+      //    });
+
+      //    // Additional initialization code such as adding Event Listeners goes here
+      //};
+
+      //// Load the SDK asynchronously
+      //(function (d, s, id) {
+      //    var js, fjs = d.getElementsByTagName(s)[0];
+      //    if (d.getElementById(id)) { return; }
+      //    js = d.createElement(s); js.id = id;
+      //    js.src = "//connect.facebook.net/en_US/all.js";
+      //    fjs.parentNode.insertBefore(js, fjs);
+      //}(document, 'script', 'facebook-jssdk'));
+
+
+    
+    </script>
+    @*@if (UserHelper.Instance.IsAuthenticated)
+    {
+      <div style="position: absolute; top: -25px; right: 0; z-index: 2;">
+        @using (Html.BeginForm("LogOff", "Account"))
+        {
+          @Html.AntiForgeryToken()
+          @Html.ActionLink(UserHelper.Instance.CurrentUserName, "Manage", "Account", null, new { @class = "no-underline" })
+          <input class="nsm-button pointer inline" type="submit" value="Log Off"/>
+        }
+      </div>
+    }
+    else
+    {
+      <div style="position: absolute; top: 15px; right: 0; z-index: 2;">
+        @Html.ActionLink("Log In", "Login", "Account", new { returnUrl = @Url.Action("Index", "Home") }, new { @class = "nsm-button" })
+        @Html.ActionLink("Register", "Register", "Account", new { returnUrl = @Url.Action("Index", "Home") }, new { @class = "nsm-button" })
+      </div>
+    }
+  *@
+
+    @*<div style="position: absolute; top: 7px; right: 250px; z-index: 2;">
+      <div class="nsm-searchbar">
+        <span>Search: </span>
+        <input id="searchTags" name="tags" type="text"/>
+        <input id="searchSubmit" type="button" value="" />
+      </div>
+    </div>*@
+
+    @*<div id="nsm-main-title">
+        <p>Ghost HuntAR</p>
+    </div>*@
+    <section id="navigation">
+      <div class="nsm-navigation-div">
+        <div class="nsm-layout-header" id="mainHeader"><a href="/">Ghost HuntAR</a></div>
+        @*<ul class="nsm-navigation-ul gradient">
+          @if (Roles.IsUserInRole("admin"))
+              {
+                <li id="adminLi">
+                  @Html.ActionLink("Admin", "DisplayAdminOptions", "Home")
+                </li>
+              }
+          <li>@Html.ActionLink("Home", "Index", "Home")</li>
+          <li>@Html.ActionLink("Manage Locations", "All", "Manage")</li>
+          <li>@Html.ActionLink("Manage Sounds", "Manage", "Sound")</li>
+          <li>@Html.ActionLink("Manage Images", "Manage", "Image")</li>
+          <li>@Html.ActionLink("Manage Texts", "Manage", "Text")</li>
+        </ul>*@
+        <div class="navigation-partial-hr"></div>
+      </div>
+      @*@if (Roles.IsUserInRole("admin"))
+      {
+        <ul id="adminDropdown">
+            <li>@Html.ActionLink("Potential Users", "PotentialUsers", "Account")</li>
+            <li>@Html.ActionLink("Create Potential User", "PotentialUser", "Account")</li>
+        </ul>
+      }*@
+    </section>
+
+    <div id="nsmBody">
+
+      @RenderBody()
+
+    </div>
+
+    <h5 style="margin: auto; text-align: center;">Namespace Media &#169; 2013 - @DateTime.Now.Year</h5>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/javascript")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+
+        $(".datepicker").each(function() {
+          $(this).datepicker();
+        });
+
+        //var adminDropdown = $("#adminDropdown");
+        //$(adminDropdown).hide();
+
+        //var overDropdown = false;
+
+        //$(adminDropdown).mouseover(function () {
+        //    overDropdown = true;
+        //});
+        //$(adminDropdown).mouseout(function () {
+        //    overDropdown = false;
+
+        //    setTimeout(function () {
+
+        //        if (!overDropdown) {
+        //            $(adminDropdown).slideUp(100);
+        //        }
+
+        //    }, 2000);
+        //});
+
+        //$("#adminLi").hover(function () {
+
+        //    $(adminDropdown).slideDown(100);
+
+        //}, function () {
+
+        //    setTimeout(function () {
+
+        //        if (!overDropdown) {
+        //            $(adminDropdown).slideUp(100);
+        //        }
+
+        //    }, 2000);
+
+        //});
+
+        @*$("#searchSubmit").click(function () {
+
+                var tags = $("#searchTags").val();
+                if (tags != null & tags != "") {
+                    var url = '@Url.Action("Index", "Tags")';
+              var parts = url.split("/");
+              url = parts[1];
+
+              window.location.href = "http://" + document.location.host + "/" + url + "/" + tags;
+          }
+
+        });*@
+
+      });
+    </script>
+  </body>
+</html>

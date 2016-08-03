@@ -1,0 +1,31 @@
+﻿@model GhostHuntAR.Infrastructure.Models.GHLocation
+
+@using (Html.BeginForm("Edit", "Manage", new {}, FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+  @Html.EditorForModel()
+
+  <br />
+
+  @Html.LabelFor(m => m.Image)
+  <br />
+  <input type="file" name="image"/>
+
+  <br />
+  <br />
+
+  <input type="submit" value="Submit"/>
+}
+
+@section scripts {
+
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+      $("#createLocationForm").nsmUploader(null, function() {
+        location.href = '@Url.Action("Index", "Home")';
+      });
+    });
+
+  </script>
+
+}

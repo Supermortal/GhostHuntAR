@@ -1,0 +1,25 @@
+﻿@using GhostHuntAR.Infrastructure.Helpers
+@model IEnumerable<GhostHuntAR.Infrastructure.Models.Text>
+
+<ul>
+  @foreach (var text in Model)
+  {
+    if (text.UserName == UserHelper.Instance.CurrentUserName)
+    {
+      <li>
+        @Html.ActionLink((string.IsNullOrEmpty(text.Title)) ? text.TextID.ToString() : text.Title, "Display", "Text", new {id = text.TextID}, null) - 
+        @Html.ActionLink("Edit", "Edit", "Text", new {id = text.TextID}, null) | 
+        @using (Html.BeginForm("Delete", "Text", new {id = text.TextID}, FormMethod.Post, new {@class = "inline"}))
+        {
+          <input style="border: 0 solid black !important; background: none; width: 60px !important;" class="no-border inline link" value="Delete" type="submit"/>
+        }
+      </li>
+    }
+    else
+    {
+      <li>
+        @Html.ActionLink((string.IsNullOrEmpty(text.Title)) ? text.TextID.ToString() : text.Title, "Display", "Text", new {id = text.TextID}, null) 
+      </li>
+    }
+  }
+</ul>

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<GhostHuntAR.Infrastructure.Models.GHLocation>
+
+@{
+  ViewBag.Title = "Results";
+}
+
+<div id="content" class="centered">
+
+  <h2>Results</h2>
+    
+  <br />
+  <br />
+
+  @foreach (var location in Model)
+  {
+    @Html.ActionLink(location.Title, "Display", "Manage", new {id = location.GHLocationID}, null)
+    ;
+    <br />
+  }
+    
+  <br />
+  <br />
+    
+</div>

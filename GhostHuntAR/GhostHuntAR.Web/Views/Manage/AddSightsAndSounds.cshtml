@@ -1,0 +1,295 @@
+﻿@using GhostHuntAR.Infrastructure.Helpers
+@using GhostHuntAR.Infrastructure.Models.Enums
+@model GhostHuntAR.Infrastructure.Models.GHLocation
+
+@{
+  ViewBag.Title = Model.Title;
+}
+
+@section styles
+{
+  @Styles.Render("~/Content/manage")
+}
+
+<div style="background: black !important; padding: 0 !important;" id="content" class="centered">
+
+  <div id="tabs">
+
+    <ul>
+      @*<li><a href="#display">Location</a></li>*@
+      <li><a href="#sounds">Sounds</a></li>
+      <li><a href="#images">Images</a></li>
+      <li><a href="#texts">Texts</a></li>
+      <li><a href="#videos">Videos</a></li>
+    </ul>
+
+    <div id="sounds">
+      <div class="gh-tab-content">
+        @if (UserHelper.Instance.IsAuthenticated)
+        {
+          using (Html.BeginForm("Create", "Sound", new {ghLocationId = Model.GHLocationID}, FormMethod.Post, new {enctype = "multipart/form-data", id = "soundDropzone", @class = "dropzone centered"}))
+          {
+            <div class="fallback">
+              <span>Sound: </span><input id="sound" type="file" name="sounds" /> <br />
+              <span>Sound Description: </span><input type="text" name="soundDescriptions" />
+
+              <input type="submit" value="Submit" />
+            </div>
+
+            <input id="soundSubmit" type="button" value="Upload" />
+            <br />
+            <br />
+          }
+
+          @*<hr />*@
+        }@*@{ Html.RenderAction("ListByLocation", "Sound", new { id = Model.GHLocationID }); }*@</div>
+    </div>
+
+    <div id="images">
+      <div class="gh-tab-content">
+        @if (UserHelper.Instance.IsAuthenticated)
+        {
+          using (Html.BeginForm("Create", "Image", new {ghLocationId = Model.GHLocationID}, FormMethod.Post, new {enctype = "multipart/form-data", id = "imageDropzone", @class = "dropzone centered"}))
+          {
+            <div class="fallback">
+              <span>Image: </span><input type="file" name="images" /> <br />
+              <span>Image Caption: </span><input type="text" name="imageCaptions" />
+
+              <input type="submit" value="Submit" />
+            </div>
+
+            <input id="imageSubmit" type="button" value="Upload" />
+            <br />
+            <br />
+          }
+
+          @*<hr />*@
+        }@*@{Html.RenderAction("ListByLocation", "Image", new { id = Model.GHLocationID });}*@</div>
+    </div>
+
+    <div id="texts">
+      <div class="gh-tab-content">
+        @if (UserHelper.Instance.IsAuthenticated)
+        {
+          using (Html.BeginForm("Create", "Text", new {ghLocationId = Model.GHLocationID}, FormMethod.Post, new {enctype = "multipart/form-data", @class = "centered"}))
+          {
+            <span>Title: </span>
+            <br />
+            <input type="text" name="title" />
+            <br />
+            <span>Body: </span>
+            <br />
+            <textarea class="text-body-textarea" name="textBody"></textarea>
+
+            <br />
+            <br />
+
+            <input id="textSubmit" type="submit" value="Submit" />
+          }
+
+          @*<hr />*@
+        }@*@{Html.RenderAction("ListByLocation", "Text", new { id = Model.GHLocationID });}*@</div>
+    </div>
+
+    <div id="videos">
+      <div class="gh-tab-content">
+        @if (UserHelper.Instance.IsAuthenticated)
+        {
+          using (Html.BeginForm("Create", "Video", new {ghLocationId = Model.GHLocationID}, FormMethod.Post, new {enctype = "multipart/form-data", @class = "centered"}))
+          {
+            <select id="videoType" name="type">
+              @foreach (var videoType in Enum.GetValues(typeof (VideoTypes)).Cast<VideoTypes>())
+              {
+                <option>@videoType.ToString()</option>
+              }
+            </select>
+            <br />
+            <br />
+            <table class="centered input-table">
+              <tr>
+                <td>
+                  Description:
+                </td>
+                <td>
+                  <input type="text" name="description" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Url:
+                </td>
+                <td>
+                  <textarea name="url"></textarea>
+                </td>
+              </tr>
+            </table>
+
+            <br />
+            <br />
+
+            <input id="videoSubmit" type="submit" value="Submit" />
+          }
+
+          @*<hr />*@
+        }@*@{Html.RenderAction("ListByLocation", "Text", new { id = Model.GHLocationID });}*@</div>
+    </div>
+
+  </div>
+
+</div>
+
+@section scripts
+{
+  @Scripts.Render("~/bundles/dropzone")
+
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+
+      var uploads = {};
+      var uploadProgress = {};
+      var uploadFinished = {};
+      var uploadProgessOverlays = {};
+
+      $("#tabs").tabs();
+      $("#tabs").show();
+
+      $("#textSubmit").click(function() {
+        document.location.href = document.location.href;
+      });
+
+      Dropzone.autoDiscover = false;
+      var sdz = $("#soundDropzone");
+      var idz = $("#imageDropzone");
+
+      var soundDropzone = new Dropzone("#soundDropzone", { acceptedFiles: "audio/*", parallelUploads: 20, addRemoveLinks: true, paramName: "sounds", uploadMultiple: true, autoDiscover: false, autoProcessQueue: false });
+
+      soundDropzone.on("addedfile", function(file) {
+
+        uploads[file.name] = file.size;
+        uploadFinished[file.name] = false;
+
+        file.br = $("<br />");
+        //file.progressBar = $("<div style='position: relative; right: -45px; background-color: gray; width: 400px; height: 25px;'></div>");
+        //uploadProgessOverlays[file.name] = file.progressBarOverlay = $("<div style='position: relative; top: -25px; right: -45px; background-color: white; width: 0; height: 25px;'></div>");
+        file.br2 = $("<br />");
+        file.label = $("<span>Description for " + file.name + ": <span/>");
+        file.input = $("<input class='soundDescription' name='soundDescriptions' type='text' />");
+        file.br3 = $("<br />");
+        file.br4 = $("<br />");
+        file.hr = $("<hr />");
+
+        $(sdz).append(file.br);
+        //$(sdz).append(file.progressBar);
+        //$(sdz).append(file.progressBarOverlay);
+        $(sdz).append(file.br2);
+        $(sdz).append(file.label);
+        $(sdz).append(file.input);
+        $(sdz).append(file.br3);
+        $(sdz).append(file.br4);
+        $(sdz).append(file.hr);
+
+      });
+
+      soundDropzone.on("removedfile", function(file) {
+        $(file.br).remove();
+        //$(file.progressBar).remove();
+        $(file.br2).remove();
+        $(file.label).remove();
+        $(file.input).remove();
+        $(file.br3).remove();
+        $(file.br4).remove();
+        $(file.hr).remove();
+      });
+
+      soundDropzone.on("success", function() {
+        document.location.href = document.location.href;
+      });
+
+      soundDropzone.on("uploadprogress", function(file, progress, bytesSent) {
+        //$(uploadProgessOverlays[file.name]).width((progress / 100) * 400);
+      });
+
+      $("#soundSubmit").click(function() {
+        var hasEmpty = false;
+
+        $(".soundDescription").each(function() {
+          if ($(this).val() == null || $(this).val() == "") {
+            hasEmpty = true;
+            return;
+          }
+        });
+
+        if (hasEmpty == true) {
+          alert("You must provide a description for each uploaded sound");
+          return;
+        }
+
+        soundDropzone.processQueue();
+      });
+
+      var imageDropzone = new Dropzone("#imageDropzone", { acceptedFiles: "image/*", parallelUploads: 20, addRemoveLinks: true, paramName: "images", uploadMultiple: true, autoDiscover: false, autoProcessQueue: false });
+
+      imageDropzone.on("addedfile", function(file) {
+
+        file.br = $("<br />");
+        file.progressBar = $("<div style='position: relative; right: -45px; background-color: gray; width: 400px; height: 25px;'></div>");
+        uploadProgessOverlays[file.name] = file.progressBarOverlay = $("<div style='position: relative; top: -25px; right: -45px; background-color: white; width: 0; height: 25px;'></div>");
+        file.br2 = $("<br />");
+        file.label = $("<span>Caption for " + file.name + ": <span/>");
+        file.input = $("<input class='imageDescription' name='imageCaptions' type='text' />");
+        file.br3 = $("<br />");
+        file.br4 = $("<br />");
+        file.hr = $("<hr />");
+
+        $(idz).append(file.br);
+        //$(idz).append(file.progressBar);
+        //$(idz).append(file.progressBarOverlay);
+        $(idz).append(file.br2);
+        $(idz).append(file.label);
+        $(idz).append(file.input);
+        $(idz).append(file.br3);
+        $(idz).append(file.br4);
+        $(idz).append(file.hr);
+
+      });
+
+      imageDropzone.on("removedfile", function(file) {
+        $(file.br).remove();
+        $(file.label).remove();
+        $(file.input).remove();
+        $(file.br2).remove();
+        $(file.br3).remove();
+        $(file.hr).remove();
+      });
+
+      imageDropzone.on("uploadprogress", function(file, progress, bytesSent) {
+        //$(uploadProgessOverlays[file.name]).width((progress / 100) * 400);
+      });
+
+      $("#imageSubmit").click(function() {
+        var hasEmpty = false;
+
+        $(".imageDescription").each(function() {
+          if ($(this).val() == null || $(this).val() == "") {
+            hasEmpty = true;
+            return;
+          }
+        });
+
+        if (hasEmpty == true) {
+          alert("You must provide a description for each uploaded image");
+          return;
+        }
+
+        imageDropzone.processQueue();
+      });
+
+      imageDropzone.on("success", function() {
+        document.location.href = document.location.href;
+      });
+
+    });
+
+  </script>
+}

@@ -1,0 +1,56 @@
+﻿@model GhostHuntAR.Infrastructure.Models.EditUserViewModel
+
+@Styles.Render("~/Content/account")
+
+<div class="nsm-change-password-div">
+
+  @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new {id = "editForm", enctype = "multipart/form-data"}))
+  {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <input type="hidden" name="token" value="@ViewBag.token"/>
+
+    <table class="centered nsm-change-password-table">
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Name)
+        </td>
+        <td>
+          @Html.TextBoxFor(m => m.Name)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Email)
+        </td>
+        <td>
+          @Html.TextBoxFor(m => m.Email)
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Image
+        </td>
+        <td>
+          <input type="file" name="image"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          @Html.LabelFor(m => m.Biography)
+        </td>
+        <td>
+          @Html.TextAreaFor(p => p.Biography)
+        </td>
+      </tr>
+    </table>
+
+    <br />
+
+    <input type="submit" value="Update" />
+  }
+  
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")

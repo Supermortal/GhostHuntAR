@@ -1,0 +1,17 @@
+﻿@model GhostHuntAR.Infrastructure.Models.Video
+
+@{
+  ViewBag.Title = Model.Description;
+}
+
+<div id="content" class="centered">
+
+  <h2>@Model.Description</h2>
+  
+  <br />
+  <br />
+
+  <iframe id="ytplayer" width="640" height="390"
+          src="//www.youtube.com/embed/@Model.Url?feature=player_detailpage&autoplay=1"></iframe>
+
+</div>
